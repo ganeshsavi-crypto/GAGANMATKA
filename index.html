@@ -102,24 +102,39 @@
         const signInButton = document.getElementById('signIn');
         const container = document.getElementById('container');
 
-        signUpButton.addEventListener('click', () => {
-            container.classList.add("right-panel-active");
-        });
+        if (signUpButton && signInButton) {
+            signUpButton.addEventListener('click', () => {
+                container.classList.add("right-panel-active");
+            });
 
-        signInButton.addEventListener('click', () => {
-            container.classList.remove("right-panel-active");
-        });
+            signInButton.addEventListener('click', () => {
+                container.classList.remove("right-panel-active");
+            });
+        }
 
         // Toggle password visibility
         document.querySelectorAll('.toggle-password').forEach(icon => {
             icon.addEventListener('click', function() {
                 const targetId = this.getAttribute('data-target');
                 const passwordInput = document.getElementById(targetId);
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                this.classList.toggle('fa-eye');
-                this.classList.toggle('fa-eye-slash');
+                if (passwordInput) {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    this.classList.toggle('fa-eye');
+                    this.classList.toggle('fa-eye-slash');
+                }
             });
+        });
+
+        // Initialize with login form
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Login page loaded successfully');
+            
+            // Show a test message if CSS is working
+            const container = document.getElementById('container');
+            if (container) {
+                container.style.visibility = 'visible';
+            }
         });
     </script>
 </body>
