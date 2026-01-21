@@ -1,0 +1,43 @@
+<!-- test.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test</title>
+</head>
+<body>
+    <h1>Firebase Debug Test</h1>
+    <button onclick="testFirebase()">Test Firebase Connection</button>
+    <div id="result"></div>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyALyTItXw0tDAy8p6PXwA1Z9XPJTds6yKU",
+            authDomain: "gaganmatka-21979.firebaseapp.com",
+            projectId: "gaganmatka-21979",
+            storageBucket: "gaganmatka-21979.firebasestorage.app",
+            messagingSenderId: "888028292027",
+            appId: "1:888028292027:web:d42b489672b25c2ae4da9e",
+            measurementId: "G-GF8Z6137MS"
+        };
+        
+        async function testFirebase() {
+            try {
+                const app = initializeApp(firebaseConfig);
+                const auth = getAuth(app);
+                document.getElementById('result').innerHTML = 
+                    '<p style="color: green">✓ Firebase initialized successfully!</p>' +
+                    '<p>Project: ' + firebaseConfig.projectId + '</p>' +
+                    '<p>Auth Domain: ' + firebaseConfig.authDomain + '</p>';
+            } catch (error) {
+                document.getElementById('result').innerHTML = 
+                    '<p style="color: red">✗ Firebase error: ' + error.message + '</p>';
+            }
+        }
+    </script>
+</body>
+</html>
