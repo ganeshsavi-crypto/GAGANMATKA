@@ -48,13 +48,29 @@
   <p id="msg"></p>
 </div>
 
-apiKey: "AIzaSyA8qJwI0ZWV30JKq2eB8yv-LsMRjz6INLg",
-  authDomain: "shreematkaboss.firebaseapp.com",
-  projectId: "shreematkaboss",
-  storageBucket: "shreematkaboss.firebasestorage.app",
-  messagingSenderId: "1004401076062",
-  appId: "1:1004401076062:web:e7e587eefd3483b7c5d1cf"
-};
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyALyTItXw0tDAy8p6PXwA1Z9XPJTds6yKU",
+    authDomain: "gaganmatka-21979.firebaseapp.com",
+    projectId: "gaganmatka-21979",
+    storageBucket: "gaganmatka-21979.firebasestorage.app",
+    messagingSenderId: "888028292027",
+    appId: "1:888028292027:web:d42b489672b25c2ae4da9e",
+    measurementId: "G-GF8Z6137MS"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
