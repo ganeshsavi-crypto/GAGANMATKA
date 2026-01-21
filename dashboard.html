@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | SecureAuth Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Dashboard Specific Styles */
+        .dashboard-header {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #3b82f6;
+            font-size: 18px;
+        }
+        
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 80vh;
+        }
+        
+        .sidebar {
+            background: #f8fafc;
+            padding: 25px 20px;
+            border-right: 1px solid #e2e8f0;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-menu li {
+            margin: 10px 0;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #475569;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: white;
+            color: #3b82f6;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar-icon {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .main-content {
+            padding: 30px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #3b82f6;
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .recent-activity {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .activity-list {
+            margin-top: 20px;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: #e0f2fe;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #0369a1;
+        }
+        
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+        }
+    </style>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div>
+            <h1 style="margin: 0; font-size: 1.5rem;">📊 Dashboard</h1>
+            <p style="margin: 5px 0 0 0; opacity: 0.9;">Welcome back to SecureAuth Pro</p>
+        </div>
+        
+        <div class="user-menu">
+            <div class="user-avatar" id="userAvatar">U</div>
+            <div>
+                <div id="userName" style="font-weight: bold;">User Name</div>
+                <div id="userEmail" style="font-size: 12px; opacity: 0.9;">user@email.com</div>
+            </div>
+            <button onclick="logout()" class="logout-btn">
+                <span>🚪</span> Logout
+            </button>
+        </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active"><span class="sidebar-icon">📊</span> Dashboard</a></li>
+                <li><a href="#"><span class="sidebar-icon">👤</span> Profile</a></li>
+                <li><a href="#"><span class="sidebar-icon">🔐</span> Security</a></li>
+                <li><a href="#"><span class="sidebar-icon">📱</span> Devices</a></li>
+                <li><a href="#"><span class="sidebar-icon">⚙️</span> Settings</a></li>
+                <li><a href="#"><span class="sidebar-icon">🛡️</span> Privacy</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Logins</div>
+                    <div class="stat-value" id="loginCount">24</div>
+                    <div class="stat-label">This month</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-label">Devices</div>
+                    <div class="stat-value" id="deviceCount">3</div>
+                    <div class="stat-label">Active now</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-label">Security Score</div>
+                    <div class="stat-value" id="securityScore">92%</div>
+                    <div class="stat-label">Excellent</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-label">Last Login</div>
+                    <div class="stat-value" id="lastLogin">2h</div>
+                    <div class="stat-label">Ago</div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="recent-activity">
+                <h2 style="margin: 0;">Recent Activity</h2>
+                <p style="color: #64748b; margin: 5px 0 0 0;">Your account activity timeline</p>
+                
+                <div class="activity-list" id="activityList">
+                    <!-- Activities will be added here by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div style="margin-top: 30px; display: flex; gap: 15px;">
+                <button class="btn btn-primary" onclick="showModal('password')">🔐 Change Password</button>
+                <button class="btn" style="background: #10b981; color: white;" onclick="showModal('2fa')">🛡️ Enable 2FA</button>
+                <button class="btn" style="background: #8b5cf6; color: white;" onclick="showModal('devices')">📱 Manage Devices</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="passwordModal" class="modal" style="display: none;">
+        <!-- Will be added by JavaScript -->
+    </div>
+
+    <!-- Firebase and Dashboard JS -->
+    <script src="firebase-config.js"></script>
+    <script>
+        // Check authentication
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                // Not logged in, redirect to login page
+                window.location.href = "index.html";
+            } else {
+                // User is logged in, show their info
+                document.getElementById('userName').textContent = user.displayName || user.email.split('@')[0];
+                document.getElementById('userEmail').textContent = user.email;
+                document.getElementById('userAvatar').textContent = user.email[0].toUpperCase();
+                
+                // Update login count (example)
+                updateDashboardStats(user);
+            }
+        });
+        
+        function updateDashboardStats(user) {
+            // Update last login time
+            const lastLogin = user.metadata.lastSignInTime;
+            if (lastLogin) {
+                const timeDiff = Math.floor((new Date() - new Date(lastLogin)) / (1000 * 60 * 60));
+                document.getElementById('lastLogin').textContent = timeDiff + 'h';
+            }
+            
+            // Generate random stats (in real app, fetch from database)
+            document.getElementById('loginCount').textContent = Math.floor(Math.random() * 50) + 20;
+            document.getElementById('deviceCount').textContent = Math.floor(Math.random() * 3) + 1;
+            document.getElementById('securityScore').textContent = Math.floor(Math.random() * 20) + 80 + '%';
+            
+            // Add activity items
+            const activities = [
+                { icon: '🔐', text: 'You logged in from Chrome on Windows', time: '2 hours ago' },
+                { icon: '📱', text: 'New login from Safari on iPhone', time: '1 day ago' },
+                { icon: '✅', text: 'Password updated successfully', time: '3 days ago' },
+                { icon: '🛡️', text: 'Two-factor authentication enabled', time: '1 week ago' },
+                { icon: '👤', text: 'Profile information updated', time: '2 weeks ago' }
+            ];
+            
+            const activityList = document.getElementById('activityList');
+            activityList.innerHTML = '';
+            
+            activities.forEach(activity => {
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                activityItem.innerHTML = `
+                    <div class="activity-icon">${activity.icon}</div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 500;">${activity.text}</div>
+                        <div style="font-size: 12px; color: #64748b;">${activity.time}</div>
+                    </div>
+                `;
+                activityList.appendChild(activityItem);
+            });
+        }
+        
+        function logout() {
+            auth.signOut()
+                .then(() => {
+                    window.location.href = "index.html";
+                })
+                .catch((error) => {
+                    alert('Logout error: ' + error.message);
+                });
+        }
+        
+        function showModal(type) {
+            alert(`This would open ${type} settings in a real application!`);
+            // In a real app, you would show a modal here
+        }
+        
+        // Auto-refresh every 30 seconds
+        setInterval(() => {
+            auth.currentUser?.reload();
+        }, 30000);
+    </script>
+</body>
+</html>
