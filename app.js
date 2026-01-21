@@ -191,3 +191,38 @@ window.logout = function() {
 
 // Initialize first tab
 showTab('login');
+// ====================
+// REDIRECT TO DASHBOARD AFTER LOGIN
+// ====================
+
+// Update onAuthStateChanged function
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        // Redirect to dashboard immediately
+        window.location.href = "dashboard.html";
+    } else {
+        hideUserInfo();
+    }
+});
+
+// Update successful login/signup to redirect
+// In login section, change success handler to:
+auth.signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+        // Redirect to dashboard
+        window.location.href = "dashboard.html";
+    })
+
+// In signup section, change success handler to:
+auth.createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+        // Redirect to dashboard
+        window.location.href = "dashboard.html";
+    })
+
+// In phone OTP verification, change success handler to:
+confirmationResult.confirm(otp)
+    .then((result) => {
+        // Redirect to dashboard
+        window.location.href = "dashboard.html";
+    })
