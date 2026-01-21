@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Auth | Secure Login</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🔐 SecureAuth Pro</h1>
+            <p>Professional Authentication System</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Login/Signup Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('login')">Login</button>
+                <button class="tab-btn" onclick="showTab('signup')">Sign Up</button>
+                <button class="tab-btn" onclick="showTab('phone')">Mobile OTP</button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login-tab" class="tab-content active">
+                <h2>Welcome Back</h2>
+                <form id="loginForm">
+                    <input type="email" id="loginEmail" placeholder="Email" required>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                <p class="switch-text">Don't have account? <a href="#" onclick="showTab('signup')">Sign up</a></p>
+            </div>
+
+            <!-- Signup Form -->
+            <div id="signup-tab" class="tab-content">
+                <h2>Create Account</h2>
+                <form id="signupForm">
+                    <input type="text" id="signupName" placeholder="Full Name">
+                    <input type="email" id="signupEmail" placeholder="Email" required>
+                    <input type="password" id="signupPassword" placeholder="Password (min. 6 chars)" required>
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                </form>
+                <p class="switch-text">Already have account? <a href="#" onclick="showTab('login')">Login</a></p>
+            </div>
+
+            <!-- Mobile OTP Form -->
+            <div id="phone-tab" class="tab-content">
+                <h2>Mobile OTP Login</h2>
+                <form id="phoneForm">
+                    <input type="tel" id="phoneNumber" placeholder="+91 1234567890" required>
+                    <button type="submit" class="btn btn-primary">Send OTP</button>
+                </form>
+                <div id="otpSection" style="display: none;">
+                    <input type="text" id="otpCode" placeholder="Enter OTP">
+                    <button onclick="verifyOTP()" class="btn btn-success">Verify OTP</button>
+                </div>
+                <p class="switch-text">Other options: <a href="#" onclick="showTab('login')">Email Login</a></p>
+            </div>
+
+            <!-- Status Messages -->
+            <div id="message" class="message"></div>
+
+            <!-- User Info (shown after login) -->
+            <div id="userInfo" class="user-info" style="display: none;">
+                <h2>🎉 Welcome!</h2>
+                <p>Email: <span id="userEmail"></span></p>
+                <button onclick="logout()" class="btn btn-logout">Logout</button>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>© 2024 SecureAuth Pro | Built with Firebase</p>
+        </footer>
+    </div>
+
+    <script src="firebase-config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
